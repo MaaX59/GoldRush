@@ -38,6 +38,7 @@ function preload(){
     playerNorm = loadImage(`img/player-norm.png`);
 
     gameOverScreen = loadImage(`img/newGameOver-background.png`);
+    
 }
 
 function setup(){
