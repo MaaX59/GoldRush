@@ -17,6 +17,7 @@ let playerNorm;
 
 let gameOverScreen;
 
+
 let player = {
     x:300,
     y:0
@@ -24,6 +25,7 @@ let player = {
 let fuel = 10;
 
 let playerDirection;
+
 
 
 function preload(){
@@ -38,11 +40,14 @@ function preload(){
     playerNorm = loadImage(`img/player-norm.png`);
 
     gameOverScreen = loadImage(`img/newGameOver-background.png`);
-    
+
 }
 
 function setup(){
     createCanvas(650,1000);
+    //image( dirt,0,0);
+    //image( iron,0,0);
+   // image( oil,0,0);
     
 
 }
@@ -68,6 +73,7 @@ function draw(){
     fill(51);
     
    image (playerNorm,player.x,player.y);
+   
 
     //display gold
     for(let i=0;i<matrix.length;i++){
@@ -83,8 +89,8 @@ function draw(){
              image(tempArr[j].ground,tempArr[j].x,tempArr[j].y);
         }
     }
-
-    */
+*/
+    
    if (fuel <= 0){
         noLoop();
         gameOver();
@@ -93,6 +99,10 @@ function draw(){
 function gameOver(){
     clear();
     image(gameOverScreen,0,0,0,1000);
+    const button = document.querySelector('#restart');
+    button.style.cssText= `visibility: visible`;
+
+    // to reset game, change position and fuel back to original value/position
 }
 
 
@@ -131,7 +141,7 @@ function randomMaterial(){
 function randomNum(max){
  return Math.floor(Math.random()* max);
 }
-console.log(randomMaterial);
+
 
 
 function keyPressed(){

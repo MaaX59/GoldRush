@@ -1,1 +1,23 @@
-/bla/
+#restart {
+    background-color: #8d3714; 
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    transition-duration: 0.4s;
+    position: relative;
+    top: 650px;
+    left:125px;
+    
+
+    
+    visibility: hidden;
+    
+  }
+  #restart:hover {
+    background-color: #209922; /* Green */
+    color: white;
+  }
