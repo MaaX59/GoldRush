@@ -14,18 +14,23 @@ let playerRight;
 let playerNorm;
 
 
-let gameRunning=true;
-let gameOverScreen;
-let winScreen;
-let matrix;
-
+let gameRunning=false;
+let showStart = true;
 let resetButton;
 
+let startScreen;
+let gameOverScreen;
+let winScreen;
+
+let matrix;
+
+
+let fuel = 15;
 let player = {
     x:300,
     y:0
 }
-let fuel = 10;
+
 
 let playerDirection;
 
@@ -37,11 +42,13 @@ function preload(){
     iron = loadImage(`img/iron.png`);
     oil = loadImage(`img/oil.png`);
     rock = loadImage(`img/rock.png`);
+
     playerLeft = loadImage(`img/player-left.png`);
     playerDown = loadImage(`img/player-down.png`);
     playerRight = loadImage(`img/player-right.png`);
     playerNorm = loadImage(`img/player-norm.png`);
 
+    startScreen = loadImage(`img/start.png`);
     gameOverScreen = loadImage(`img/newGameOver-background.png`);
     winScreen = loadImage(`img/winScreen.png`);
 }
@@ -84,25 +91,15 @@ function generateMap(){
 
 ]
 }
-/* attempt at turning robot
-function test(){
-    if(playerDirection ==playerLeft){
-    return playerLeft;
-}else if(playerDirection==playerRight){
-    return playerRight;
-}else if(playerDirection==playerDown){
-    return playerDown;
-}else{ 
-return playerDown
-}
-}  */
+
  
 function draw(){ 
-    
-
     background(220);
-    
-    if(gameRunning && goldCount==0 ){
+
+   if (showStart){
+    image(startScreen,0,0,0,1000);
+   }
+     else if(gameRunning && goldCount==0 ){
     textSize(32);
     text(`Fuel: ${fuel}`,500,35);
     if(ironCount<5){
@@ -126,7 +123,7 @@ function draw(){
         gameRunning = false;
     }
     //out of fuel
-    }else if(gameRunning== false && goldCount==0){
+    }else if(showStart==false &&gameRunning== false && goldCount==0){
     image(gameOverScreen,0,0,0,1000);
     const button = document.querySelector('#restart');
      button.style.cssText= `visibility: visible`;
@@ -140,16 +137,24 @@ function draw(){
         button.style.cssText= `visibility: visible`;
     }
 }
+function startGame (){
+    resetButton=true;
+    gameRunning=true;
+    showStart = false;
+    
+    document.querySelector('#start').style.cssText = `visibility: hidden`;
+    generateMap();
 
+}
 function resetGame(){
     resetButton=true;
     gameRunning=true;
     player.x = 300;
     player.y = 0;
-    fuel = 10;
+    fuel = 15;
     goldCount = 0;
     ironCount =0;
-    redraw();
+    
     document.querySelector('#restart').style.cssText = `visibility: hidden`;
     generateMap();
 }
@@ -158,7 +163,7 @@ function randomMaterial(){
     let rand= randomNum(100);
     if (rand>=10){
         return dirt;
-    }else if(rand<=4){
+    }else if(rand<=5){
         return iron;
     }else{
         return oil;
