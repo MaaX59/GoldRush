@@ -5,9 +5,6 @@ let oil;
 let rock;
 let gold;
 
-let ironCount= 0;
-let goldCount = 0;
-
 let playerLeft;
 let playerDown;
 let playerRight;
@@ -23,8 +20,10 @@ let gameOverScreen;
 let winScreen;
 
 let matrix;
+let mapArr;
 
-
+let ironCount= 0;
+let goldCount = 0;
 let fuel = 15;
 let player = {
     x:300,
@@ -55,7 +54,8 @@ function preload(){
 
 function setup(){
     createCanvas(650,1150);
-    generateMap();
+    //generateMap(); 
+   makeMap();
    
 
 }
@@ -66,8 +66,8 @@ function generateMap(){
      matrix = [
         
     //[{x:0,y:0},  {x:50,y:0},  {x:100,y:0},  {x:150,y:0},  {x:200,y:0},  {x:250,y:0},  {x:300,y:0},  {x:350,y:0},  {x:400,y:0},{x:450,y:0},  {x:500,y:0},  {x:550,y:0},  {x:600,y:0}, ],
-    [{ground: randomMaterial(),x:0,y:50}, {ground: randomMaterial(),x:50,y:50}, {ground: randomMaterial(),x:100,y:50}, {ground: randomMaterial(),x:150,y:50}, {ground: randomMaterial(),x:200,y:50}, {ground: randomMaterial(),x:250,y:50},  {ground: randomMaterial(),x:300,y:50},  {ground: randomMaterial(),x:350,y:50},  {ground: randomMaterial(),x:400,y:50},{ground: randomMaterial(),x:450,y:50},  {ground: randomMaterial(),x:500,y:50},  {ground: randomMaterial(),x:550,y:50},  {ground: randomMaterial(),x:600,y:50}],
-    [{ground: randomMaterial(),x:0,y:100},{ground: randomMaterial(),x:50,y:100},{ground: randomMaterial(),x:100,y:100},{ground: randomMaterial(),x:150,y:100},{ground: randomMaterial(),x:200,y:100}, {ground: randomMaterial(),x:250,y:100},  {ground: randomMaterial(),x:300,y:100},  {ground: randomMaterial(),x:350,y:100},  {ground: randomMaterial(),x:400,y:100},{ground: randomMaterial(),x:450,y:100},  {ground: randomMaterial(),x:500,y:100},  {ground: randomMaterial(),x:550,y:100},  {ground: randomMaterial(),x:600,y:100}],
+    //[{ground: randomMaterial(),x:0,y:50}, {ground: randomMaterial(),x:50,y:50}, {ground: randomMaterial(),x:100,y:50}, {ground: randomMaterial(),x:150,y:50}, {ground: randomMaterial(),x:200,y:50}, {ground: randomMaterial(),x:250,y:50},  {ground: randomMaterial(),x:300,y:50},  {ground: randomMaterial(),x:350,y:50},  {ground: randomMaterial(),x:400,y:50},{ground: randomMaterial(),x:450,y:50},  {ground: randomMaterial(),x:500,y:50},  {ground: randomMaterial(),x:550,y:50},  {ground: randomMaterial(),x:600,y:50}],
+   // [{ground: randomMaterial(),x:0,y:100},{ground: randomMaterial(),x:50,y:100},{ground: randomMaterial(),x:100,y:100},{ground: randomMaterial(),x:150,y:100},{ground: randomMaterial(),x:200,y:100}, {ground: randomMaterial(),x:250,y:100},  {ground: randomMaterial(),x:300,y:100},  {ground: randomMaterial(),x:350,y:100},  {ground: randomMaterial(),x:400,y:100},{ground: randomMaterial(),x:450,y:100},  {ground: randomMaterial(),x:500,y:100},  {ground: randomMaterial(),x:550,y:100},  {ground: randomMaterial(),x:600,y:100}],
     [{ground: randomMaterial(),x:0,y:150},{ground: randomMaterial(),x:50,y:150},{ground: randomMaterial(),x:100,y:150},{ground: randomMaterial(),x:150,y:150},{ground: randomMaterial(),x:200,y:150}, {ground: randomMaterial(),x:250,y:150},  {ground: randomMaterial(),x:300,y:150},  {ground: randomMaterial(),x:350,y:150},  {ground: randomMaterial(),x:400,y:150},{ground: randomMaterial(),x:450,y:150},  {ground: randomMaterial(),x:500,y:150},  {ground: randomMaterial(),x:550,y:150},  {ground: randomMaterial(),x:600,y:150}],
     [{ground: randomMaterial(),x:0,y:200},{ground: randomMaterial(),x:50,y:200},{ground: randomMaterial(),x:100,y:200},{ground: randomMaterial(),x:150,y:200},{ground: randomMaterial(),x:200,y:200}, {ground: randomMaterial(),x:250,y:200},  {ground: randomMaterial(),x:300,y:200},  {ground: randomMaterial(),x:350,y:200},  {ground: randomMaterial(),x:400,y:200},{ground: randomMaterial(),x:450,y:200},  {ground: randomMaterial(),x:500,y:200},  {ground: randomMaterial(),x:550,y:200},  {ground: randomMaterial(),x:600,y:200}],
     [{ground: randomMaterial(),x:0,y:250},{ground: randomMaterial(),x:50,y:250},{ground: randomMaterial(),x:100,y:250},{ground: randomMaterial(),x:150,y:250},{ground: randomMaterial(),x:200,y:250}, {ground: randomMaterial(),x:250,y:250},  {ground: randomMaterial(),x:300,y:250},  {ground: randomMaterial(),x:350,y:250},  {ground: randomMaterial(),x:400,y:250}, {ground: randomMaterial(),x:450,y:250},  {ground: randomMaterial(),x:500,y:250}, {ground: randomMaterial(),x:550,y:250},  {ground: randomMaterial(),x:600,y:250}],
@@ -92,6 +92,44 @@ function generateMap(){
 ]
 }
 
+function makeMap() {
+    // random map, but I want first 3-4 layers to be empty and bottom two to be rock and gold.
+    //to make the first layers empty, change the 0 in the second forloop to be j= 3, then it starts at the third layer
+    const row = 13;
+    const col = 23;
+    mapArr = [];
+  
+    for (let i = 1; i < col; i++) {
+        if(!i==0){
+            mapArr.push([]) 
+        }
+      mapArr.push([]);
+      
+      if (i<col-1){
+
+      for (let j = 0; j < row; j++) { 
+        let tempObj = {ground: randomMaterial(),x:j*50 ,y:i*50};
+        mapArr[i].push(tempObj); }
+   
+    /* }else if (i=col-2){
+        for (let g = 0; g < row; g++) { 
+            let tempObj = {ground: rock,x:g*50 ,y:i*50};
+            mapArr[i].push(tempObj);}
+            if i implement this then it creates an infinite loop but i dont know why
+*/
+     }else{ 
+        for (let k = 0; k < row; k++) { 
+            let tempObj = {ground: gold,x:k*50 ,y:i*50};
+            mapArr[i].push(tempObj);
+            
+        }
+        }
+    }
+  
+    return mapArr;
+  }
+// makeMap/ mapArr to be changed for  generateMap/ matrix at line 56, , 166, 180, 219,220  
+
  
 function draw(){ 
     background(220);
@@ -109,8 +147,8 @@ function draw(){
     }
     fill(51);
     
- for(let i=0;i<matrix.length;i++){
-        let tempArr = matrix[i];
+ for(let i=0;i<mapArr.length;i++){
+        let tempArr = mapArr[i];
         for (let j=0; j<tempArr.length;j++){
              image(tempArr[j].ground,tempArr[j].x,tempArr[j].y);
         }
@@ -143,7 +181,8 @@ function startGame (){
     showStart = false;
     
     document.querySelector('#start').style.cssText = `visibility: hidden`;
-    generateMap();
+   //generateMap();
+    makeMap();
 
 }
 function resetGame(){
@@ -156,7 +195,9 @@ function resetGame(){
     ironCount =0;
     
     document.querySelector('#restart').style.cssText = `visibility: hidden`;
-    generateMap();
+    //generateMap();
+    makeMap();
+
 }
 
 function randomMaterial(){
@@ -187,20 +228,21 @@ function keyPressed(){
         fuel= fuel - 1;
      player.y+= 50;
     }else if (keyCode === UP_ARROW){
+        player.x===0 ? null :player.y-= 50;
         fuel= fuel - 1;
-     player.y-= 50;
+    
     }
     
 
-    for(let i=0;i<matrix.length;i++){
-        let tempArr = matrix[i];
+    for(let i=0;i<mapArr.length;i++){
+        let tempArr = mapArr[i];
         for (let j=0; j<tempArr.length;j++){
            if ( player.x===tempArr[j].x &&
                 player.y===tempArr[j].y &&
                 tempArr[j].ground=== oil){
                     //if you take oil replace with dirt
                     tempArr[j].ground = dirt;
-                    fuel += 10; 
+                    fuel = 15; 
         }else if(player.x===tempArr[j].x &&
                  player.y===tempArr[j].y &&
                  tempArr[j].ground=== rock) {
