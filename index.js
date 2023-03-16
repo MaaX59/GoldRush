@@ -4,6 +4,7 @@ let iron;
 let oil;
 let rock;
 let gold;
+let dug;
 
 let playerLeft;
 let playerDown;
@@ -41,6 +42,7 @@ function preload(){
     iron = loadImage(`img/iron.png`);
     oil = loadImage(`img/oil.png`);
     rock = loadImage(`img/rock.png`);
+    dug = loadImage(`img/dug.png`)
 
     playerLeft = loadImage(`img/player-left.png`);
     playerDown = loadImage(`img/player-down.png`);
@@ -100,23 +102,21 @@ function makeMap() {
     mapArr = [];
   
     for (let i = 1; i < col; i++) {
-        if(!i==0){
+       if(!i==0){
             mapArr.push([]) 
         }
       mapArr.push([]);
       
-      if (i<col-1){
-
+      if (i<col-2){
       for (let j = 0; j < row; j++) { 
         let tempObj = {ground: randomMaterial(),x:j*50 ,y:i*50};
         mapArr[i].push(tempObj); }
    
-    /* }else if (i=col-2){
+     }else if (i == col-2){
         for (let g = 0; g < row; g++) { 
             let tempObj = {ground: rock,x:g*50 ,y:i*50};
             mapArr[i].push(tempObj);}
-            if i implement this then it creates an infinite loop but i dont know why
-*/
+           
      }else{ 
         for (let k = 0; k < row; k++) { 
             let tempObj = {ground: gold,x:k*50 ,y:i*50};
@@ -202,9 +202,9 @@ function resetGame(){
 
 function randomMaterial(){
     let rand= randomNum(100);
-    if (rand>=10){
+    if (rand>=9){
         return dirt;
-    }else if(rand<=5){
+    }else if(rand<=4){
         return iron;
     }else{
         return oil;
@@ -228,7 +228,7 @@ function keyPressed(){
         fuel= fuel - 1;
      player.y+= 50;
     }else if (keyCode === UP_ARROW){
-        player.x===0 ? null :player.y-= 50;
+        player.y===0 ? null :player.y-= 50;
         fuel= fuel - 1;
     
     }
@@ -241,7 +241,7 @@ function keyPressed(){
                 player.y===tempArr[j].y &&
                 tempArr[j].ground=== oil){
                     //if you take oil replace with dirt
-                    tempArr[j].ground = dirt;
+                    tempArr[j].ground = dug;
                     fuel = 15; 
         }else if(player.x===tempArr[j].x &&
                  player.y===tempArr[j].y &&
@@ -250,19 +250,24 @@ function keyPressed(){
                         player.y-= 50
                 console.log("cant mine rock yet");
                     }else{
-                    tempArr[j].ground = dirt;
+                    tempArr[j].ground = dug;
                 }  
             }else if(player.x===tempArr[j].x &&
                 player.y===tempArr[j].y &&
                 tempArr[j].ground=== iron) {
                 ironCount = ironCount + 1;
-                tempArr[j].ground = dirt;
+                tempArr[j].ground = dug;
 
            }else if(player.x===tempArr[j].x &&
                     player.y===tempArr[j].y &&
                     tempArr[j].ground=== gold){
                     goldCount= goldCount + 1;
             }
+            else if (player.x===tempArr[j].x &&
+                player.y===tempArr[j].y &&
+                tempArr[j].ground=== dirt){
+                    tempArr[j].ground = dug;
+                }
         }
     }
      console.log(player,fuel, goldCount); 
