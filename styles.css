@@ -31,9 +31,11 @@
     display: inline-block;
     font-size: 30px;
     transition-duration: 0.4s;
+    border-radius: 15px;
     position: relative;
-    top: 650px;
-    right:30px;
+
+    top: 280px;
+    left:145px;
      visibility: visible;
     
   }

@@ -6,6 +6,8 @@ let rock;
 let gold;
 let dug;
 
+let digSound;
+
 let playerLeft;
 let playerDown;
 let playerRight;
@@ -42,20 +44,23 @@ function preload(){
     iron = loadImage(`img/iron.png`);
     oil = loadImage(`img/oil.png`);
     rock = loadImage(`img/rock.png`);
-    dug = loadImage(`img/dug.png`)
+    dug = loadImage(`img/dug.png`);
+
+    //soundFormats('wav');
+    //digSound = new sound(`img/digging.wav`);
 
     playerLeft = loadImage(`img/player-left.png`);
     playerDown = loadImage(`img/player-down.png`);
     playerRight = loadImage(`img/player-right.png`);
     playerNorm = loadImage(`img/player-norm.png`);
 
-    startScreen = loadImage(`img/start.png`);
+    startScreen = loadImage(`img/start-background-overlay - Copy.png`);
     gameOverScreen = loadImage(`img/newGameOver-background.png`);
     winScreen = loadImage(`img/winScreen.png`);
 }
 
 function setup(){
-    createCanvas(650,1150);
+    createCanvas(650,1500);
     //generateMap(); 
    makeMap();
    
@@ -63,7 +68,7 @@ function setup(){
 }
 
 
-
+/*
 function generateMap(){
      matrix = [
         
@@ -93,12 +98,12 @@ function generateMap(){
 
 ]
 }
-
+*/
 function makeMap() {
     // random map, but I want first 3-4 layers to be empty and bottom two to be rock and gold.
     //to make the first layers empty, change the 0 in the second forloop to be j= 3, then it starts at the third layer
     const row = 13;
-    const col = 23;
+    const col = 25;
     mapArr = [];
   
     for (let i = 1; i < col; i++) {
@@ -116,7 +121,6 @@ function makeMap() {
         for (let g = 0; g < row; g++) { 
             let tempObj = {ground: rock,x:g*50 ,y:i*50};
             mapArr[i].push(tempObj);}
-           
      }else{ 
         for (let k = 0; k < row; k++) { 
             let tempObj = {ground: gold,x:k*50 ,y:i*50};
@@ -220,13 +224,15 @@ function keyPressed(){
     if(keyCode === LEFT_ARROW){
         player.x===0 ? null :player.x-= 50;
         fuel= fuel - 1;
-
+       // digSound.play();
     }else if ( keyCode === RIGHT_ARROW){
         player.x===600 ? null : player.x+= 50;
         fuel= fuel - 1;
+      //  digSound.play();
     }  else if (keyCode === DOWN_ARROW){
         fuel= fuel - 1;
      player.y+= 50;
+    // digSound.play();
     }else if (keyCode === UP_ARROW){
         player.y===0 ? null :player.y-= 50;
         fuel= fuel - 1;
