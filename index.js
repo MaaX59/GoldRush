@@ -7,6 +7,10 @@ let gold;
 let dug;
 
 let digSound;
+let refuel;
+let rockClink;
+let metalSound;
+let winSound;
 
 let playerLeft;
 let playerDown;
@@ -46,8 +50,12 @@ function preload(){
     rock = loadImage(`img/rock.png`);
     dug = loadImage(`img/dug.png`);
 
-    //soundFormats('wav');
-    //digSound = new sound(`img/digging.wav`);
+    soundFormats('wav', `mp3`);
+    digSound = loadSound(`img/digging.wav`);
+    refuel = loadSound(`img/refuel2.mp3`);
+    rockClink = loadSound(`img/rock-clink.wav`);
+    metalSound = loadSound(`img/metal.wav`);
+    winSound = loadSound(`img/win.mp3`)
 
     playerLeft = loadImage(`img/player-left.png`);
     playerDown = loadImage(`img/player-down.png`);
@@ -175,6 +183,7 @@ function draw(){
         resetButton= false;
         gameRunning= false;
         image(winScreen,0,0,0,1000);
+        
         const button = document.querySelector('#restart');
         button.style.cssText= `visibility: visible`;
     }
@@ -232,7 +241,7 @@ function keyPressed(){
     }  else if (keyCode === DOWN_ARROW){
         fuel= fuel - 1;
      player.y+= 50;
-    // digSound.play();
+    // 
     }else if (keyCode === UP_ARROW){
         player.y===0 ? null :player.y-= 50;
         fuel= fuel - 1;
@@ -247,32 +256,39 @@ function keyPressed(){
                 player.y===tempArr[j].y &&
                 tempArr[j].ground=== oil){
                     //if you take oil replace with dirt
+                    refuel.play();
                     tempArr[j].ground = dug;
-                    fuel = 15; 
+                                        fuel = 15; 
         }else if(player.x===tempArr[j].x &&
                  player.y===tempArr[j].y &&
                  tempArr[j].ground=== rock) {
                     if(ironCount < 5){
-                        player.y-= 50
-                console.log("cant mine rock yet");
+                        player.y-= 50;
+                        rockClink.play()
+                
                     }else{
                     tempArr[j].ground = dug;
-                }  
+                    digSound.play();
+                                    }  
             }else if(player.x===tempArr[j].x &&
                 player.y===tempArr[j].y &&
                 tempArr[j].ground=== iron) {
                 ironCount = ironCount + 1;
                 tempArr[j].ground = dug;
-
+                metalSound.play();
+                
            }else if(player.x===tempArr[j].x &&
                     player.y===tempArr[j].y &&
                     tempArr[j].ground=== gold){
+                        winSound.play();
                     goldCount= goldCount + 1;
             }
             else if (player.x===tempArr[j].x &&
                 player.y===tempArr[j].y &&
                 tempArr[j].ground=== dirt){
                     tempArr[j].ground = dug;
+                    digSound.play();
+                    
                 }
         }
     }
